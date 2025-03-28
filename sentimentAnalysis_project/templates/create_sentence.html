@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Sentence</title>
+    <style>
+      h2 {
+        color: #2a3d66;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        text-align: center;
+        padding: 0; /* Adjust to remove any default body padding */
+        margin: 0;
+      }
+      .container {
+        width: 100%; /* Make the container full width */
+        background: #a8e6cf;
+        padding: 20px;
+        border-radius: 10px;
+        box-sizing: border-box; /* Ensure padding is inside the width */
+        min-height: 100vh; /* Ensure it takes at least full page height */
+      }
+      textarea,
+      select,
+      button {
+        width: 900px;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      button {
+        width: 200px;
+        background: #ffd700;
+        color: #2a3d66;
+        border: none;
+        cursor: pointer;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      th {
+        background: #2a3d66;
+        color: white;
+      }
+      .edit-btn,
+      .delete-btn {
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        color: white;
+        display: inline-block;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .edit-btn {
+        background-color: #ffd700; /* Green for edit */
+      }
+
+      .delete-btn {
+        background-color: #f44336; /* Red for delete */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Create a Sentence</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <textarea
+          name="sentence"
+          placeholder="Write your sentence here..."
+          required
+        ></textarea>
+        <select name="sentiment">
+          <option value="positive">Positive</option>
+          <option value="negative">Negative</option>
+          <option value="neutral" selected>Neutral</option>
+          <option value="happy">Happy</option>
+          <option value="sad">Sad</option>
+        </select>
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+      {% if sentences %}
+      <h2>View Sentences</h2>
+      <table>
+        <tr>
+          <th>Sentence</th>
+          <th>Sentiment</th>
+          <th>User</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+        {% for sentence in sentences %}
+        <tr>
+          <td>{{ sentence.sentence }}</td>
+          <td>{{ sentence.sentiment }}</td>
+          <td>{{ sentence.user.username }}</td>
+          <td>{{ sentence.created_at }}</td>
+          <td>
+            <a href="{% url 'update_sentence' sentence.id %}" class="edit-btn"
+              >Edit</a
+            >
+            |
+            <a
+              href="{% url 'delete_sentence' sentence.id %}"
+              class="delete-btn"
+              onclick="return confirm('Are you sure?');"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <p>No sentences submitted yet.</p>
+      {% endif %}
+    </div>
+  </body>
+</html>

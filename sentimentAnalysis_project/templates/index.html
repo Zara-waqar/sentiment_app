@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - My Website</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #a8e6cf;
+      }
+      header {
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #2a3d66;
+        font-size: 36px;
+      }
+      .container {
+        position: absolute;
+        top: 20px;
+        left: 10%;
+        right: 10%;
+        background: #f0f0f0;
+        padding: 10px 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: flex-end; /* Aligns the content (username & button) to the right */
+        align-items: center;
+      }
+      .container p {
+        margin-right: 40px;
+        line-height: 1;
+        color: #2a3d66;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        color: #2a3d66;
+        background-color: #ffd700;
+        border-radius: 10px;
+        border: none;
+        display: inline-block;
+        line-height: 1;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <header>
+    <h1>Welcome to My Website</h1>
+  </header>
+  <body>
+    <div class="container">
+      {% if user.is_authenticated %}
+      <p>{{ user.username }} | {{user.email}}</p>
+      <a href="{% url 'logout' %}"><button>Logout</button></a>
+      <a href="{% url 'create_sentence' %}"><button>Create Sentence</button></a>
+      {% else %}
+      <a href="{% url 'login' %}"><button>Login</button></a>
+      <a href="{% url 'signup' %}"><button>Sign Up</button></a>
+      {% endif %}
+    </div>
+  </body>
+</html>

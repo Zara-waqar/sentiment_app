@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Sentence</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        form { display: inline-block; text-align: left; background: #a8e6cf; padding: 20px; border-radius: 10px; }
+        textarea, select, button { width: 100%; margin: 10px 0; padding: 8px; } button{width: 200px;
+            background: #ffd700;
+            color: #2a3d66;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Update Sentence</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Sentence:</label>
+        <textarea name="sentence" required>{{ sentence.sentence }}</textarea>
+        <label>Sentiment:</label>
+        <select name="sentiment">
+            <option value="positive" {% if sentence.sentiment == "positive" %}selected{% endif %}>Positive</option>
+            <option value="negative" {% if sentence.sentiment == "negative" %}selected{% endif %}>Negative</option>
+            <option value="neutral" {% if sentence.sentiment == "neutral" %}selected{% endif %}>Neutral</option>
+            <option value="happy" {% if sentence.sentiment == "happy" %}selected{% endif %}>Happy</option>
+            <option value="sad" {% if sentence.sentiment == "sad" %}selected{% endif %}>Sad</option>
+        </select>
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

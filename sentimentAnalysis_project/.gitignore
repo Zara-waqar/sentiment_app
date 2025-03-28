@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+myenv/
+
+# Django secret settings
+.env
+*.secret
+
+# Database
+db.sqlite3
+db.sqlite3-journal
+
+# Logs & Debug
+logs/
+*.log
+debug.log
+
+# Media & Static files (optional)
+media/
+staticfiles/
+
+# Migrations (optional, if you don't want to track them)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Ignore IDE/editor settings
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Node.js dependencies (if using frontend with Django)
+node_modules/

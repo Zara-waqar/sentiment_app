@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Sentences</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        text-align: center;
+        padding: 20px;
+      }
+      .container {
+        max-width: 700px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      th {
+        background: #007bff;
+        color: white;
+      }
+      a button {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      a button:hover {
+        background: #c82333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Sentences and Sentiments</h2>
+      {% if sentences %}
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Sentence</th>
+          <th>Sentiment</th>
+          <th>Actions</th>
+        </tr>
+        {% for sentence in sentences %}
+        <tr>
+          <td>{{ sentence.id }}</td>
+          <td>{{ sentence.sentence }}</td>
+          <td>{{ sentence.sentiment }}</td>
+          <td>
+            <a href="{% url 'update_sentence' sentence.id %}"
+              ><button>Edit</button></a
+            >
+            <a
+              href="{% url 'delete_sentence' sentence.id %}"
+              onclick="return confirm('Are you sure?');"
+              ><button>Delete</button></a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% else %}
+      <p>No sentences submitted yet.</p>
+      {% endif %}
+      <br />
+      <a href="{% url 'create_sentence' %}"><button>Create Sentence</button></a>
+    </div>
+  </body>
+</html>

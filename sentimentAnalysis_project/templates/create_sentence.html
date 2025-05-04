@@ -5,71 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Sentence</title>
     <style>
-      h2 {
-        color: #2a3d66;
-      }
       body {
         font-family: Arial, sans-serif;
         background: #f4f4f4;
-        text-align: center;
-        padding: 0; /* Adjust to remove any default body padding */
         margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
       }
       .container {
-        width: 100%; /* Make the container full width */
+        width: 70%;
         background: #a8e6cf;
         padding: 20px;
         border-radius: 10px;
-        box-sizing: border-box; /* Ensure padding is inside the width */
-        min-height: 100vh; /* Ensure it takes at least full page height */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
       textarea,
-      select,
       button {
-        width: 900px;
+        width: 50%;
         padding: 10px;
-        margin: 10px 0;
+        margin-top: 10px;
         border-radius: 5px;
+        border: 1px solid #ccc;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
       }
+
       button {
-        width: 200px;
+        width: 100px;
         background: #ffd700;
         color: #2a3d66;
         border: none;
         cursor: pointer;
       }
-      table {
-        width: 100%;
-        border-collapse: collapse;
+      .comments {
         margin-top: 20px;
       }
-      th,
-      td {
-        padding: 10px;
-        border: 1px solid #ddd;
-        text-align: left;
+      .comment {
+        background: #f0f0f0;
+        padding: 28px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        position: relative;
       }
-      th {
-        background: #2a3d66;
-        color: white;
+      .comment .user {
+        font-weight: bold;
+        color: #2a3d66;
+      }
+      .comment .time {
+        font-size: 12px;
+        color: gray;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+      .comment .sentiment {
+        position: absolute;
+        bottom: 15px;
+        right: 20px;
+        font-size: 15px;
+        color: #2a3d66;
+        font-style: italic;
+      }
+      .comment-actions {
+        margin-top: 5px;
       }
       .edit-btn,
       .delete-btn {
+        font-size: 12px;
         text-decoration: none;
-        padding: 8px 16px;
+        padding: 5px 10px;
         border-radius: 5px;
-        color: white;
-        display: inline-block;
-        text-align: center;
-        font-weight: bold;
       }
-
       .edit-btn {
-        background-color: #ffd700; /* Green for edit */
+        color: #fff;
+        background: #ff9800;
       }
-
       .delete-btn {
-        background-color: #f44336; /* Red for delete */
+        color: #fff;
+        background: #f44336;
       }
     </style>
   </head>
@@ -83,50 +101,32 @@
           placeholder="Write your sentence here..."
           required
         ></textarea>
-        <select name="sentiment">
-          <option value="positive">Positive</option>
-          <option value="negative">Negative</option>
-          <option value="neutral" selected>Neutral</option>
-          <option value="happy">Happy</option>
-          <option value="sad">Sad</option>
-        </select>
-        <br />
         <button type="submit">Submit</button>
       </form>
-      {% if sentences %}
-      <h2>View Sentences</h2>
-      <table>
-        <tr>
-          <th>Sentence</th>
-          <th>Sentiment</th>
-          <th>User</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-        {% for sentence in sentences %}
-        <tr>
-          <td>{{ sentence.sentence }}</td>
-          <td>{{ sentence.sentiment }}</td>
-          <td>{{ sentence.user.username }}</td>
-          <td>{{ sentence.created_at }}</td>
-          <td>
+      <div class="comments">
+        <h3>Recent Sentences</h3>
+        {% if sentences %} {% for sentence in sentences %}
+        <div class="comment">
+          <span class="user">{{ sentence.user }}</span>: {{ sentence.sentence }}
+          <span class="time">{{ sentence.created_at|date:"M d, H:i A" }}</span>
+          <span class="sentiment">{{ sentence.sentiment }}</span>
+
+          <div class="comment-actions">
             <a href="{% url 'update_sentence' sentence.id %}" class="edit-btn"
               >Edit</a
             >
-            |
             <a
               href="{% url 'delete_sentence' sentence.id %}"
               class="delete-btn"
               onclick="return confirm('Are you sure?');"
               >Delete</a
             >
-          </td>
-        </tr>
-        {% endfor %}
-      </table>
-      {% else %}
-      <p>No sentences submitted yet.</p>
-      {% endif %}
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <p>No sentences submitted yet.</p>
+        {% endif %}
+      </div>
     </div>
   </body>
 </html>

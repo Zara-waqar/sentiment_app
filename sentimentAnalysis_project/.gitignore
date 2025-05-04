@@ -40,5 +40,5 @@ Thumbs.db
 
 # Node.js dependencies (if using frontend with Django)
 node_modules/
-ML_model/glove.6B.100d.txt
 
+ML_model/glove.6B.100d.txt

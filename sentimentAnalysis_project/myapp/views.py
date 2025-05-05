@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Sentiment
 from django.contrib import messages
+from .models import Sentiment
+from predict import predict_sentiment 
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -41,22 +44,32 @@ def index(request):
 @login_required
 def create_sentence(request):
     if request.method == 'POST':
-        Sentiment.objects.create(sentiment=request.POST['sentiment'],sentence=request.POST['sentence'],
+        sentence_text = request.POST['sentence']
+        predicted_sentiment = predict_sentiment(sentence_text)
+        Sentiment.objects.create(
+            sentence=sentence_text,
+            sentiment=predicted_sentiment,
             user=request.user
         )
-    sentences = Sentiment.objects.all()
+        return redirect('create_sentence')  # or 'home' if you prefer
+    sentences = Sentiment.objects.all().order_by('-created_at')
     return render(request, 'create_sentence.html', {'sentences': sentences})
-
-
 @login_required
-def update_sentence(request, id):
-    sentence = get_object_or_404(Sentiment, id=id, user=request.user)
-    if request.method == 'POST':
-        sentence.sentence, sentence.sentiment = request.POST['sentence'], request.POST['sentiment']
-        sentence.save()
-    return render(request, 'update_sentence.html', {'sentence': sentence})
-    return redirect('create_sentence')
+def update_sentence(request,id):
+    sentence = get_object_or_404(Sentiment, id=id)
+    
+    if request.method == "POST":
+        updated_text = request.POST.get('sentence')
+        sentence.sentence = updated_text
 
+        # Re-analyze sentiment
+        predicted_sentiment = predict_sentiment(updated_text)
+        sentence.sentiment = predicted_sentiment
+
+        sentence.save()
+        return redirect('create_sentence')  # or whatever your URL name is
+
+    return render(request, 'update_sentence.html', {'sentence': sentence})
 
 @login_required
 def delete_sentence(request, id):

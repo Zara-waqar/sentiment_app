@@ -28,4 +28,5 @@ def predict_sentiment(sentence):
     vec = sentence_to_vector(sentence).reshape(1, -1)
     pred = model.predict(vec)
     label = label_encoder.inverse_transform(pred)[0]
+    print(label)
     return label

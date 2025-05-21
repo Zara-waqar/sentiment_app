@@ -1,18 +1,18 @@
 import joblib
 import numpy as np
-import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 model_path = BASE_DIR / "ml_model" / "sentiment_model.joblib"
-model = joblib.load(model_path)
+encoder_path = BASE_DIR / "ml_model" / "label_encoder.joblib"
+glove_path = BASE_DIR / "ml_model" / "glove.6B.100d.txt"
 
 # Load model and encoder
-model = joblib.load("ml_model/sentiment_model.joblib")
-label_encoder = joblib.load("ml_model/label_encoder.joblib")
+model = joblib.load(model_path)
+label_encoder = joblib.load(encoder_path)
 
 # Load GloVe
-def load_glove(path='ml_model/glove.6B.100d.txt'):
+def load_glove(path=glove_path):
     embeddings = {}
     with open(path, 'r', encoding='utf-8') as f:
         for line in f:

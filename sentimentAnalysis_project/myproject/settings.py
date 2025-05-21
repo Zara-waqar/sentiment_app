@@ -29,7 +29,14 @@ import os  # Add this at the top if not already present
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-local-secret-key")
 DEBUG = os.getenv("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ["your-app-name.onrender.com", "localhost"]
+ALLOWED_HOSTS = [
+    "sentiment-app-r3w2.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
+# or dynamically from environment variable
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 
 
 # Application definition

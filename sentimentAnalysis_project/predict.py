@@ -7,6 +7,7 @@ model_path = BASE_DIR / "ml_model" / "sentiment_model.joblib"
 encoder_path = BASE_DIR / "ml_model" / "label_encoder.joblib"
 glove_path = BASE_DIR / "ml_model" / "glove.6B.100d.txt"
 
+print(f"Model Path : {model_path}")
 # Load model and encoder
 model = joblib.load(model_path)
 label_encoder = joblib.load(encoder_path)

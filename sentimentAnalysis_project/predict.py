@@ -1,5 +1,11 @@
 import joblib
 import numpy as np
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+model_path = BASE_DIR / "ml_model" / "sentiment_model.joblib"
+model = joblib.load(model_path)
 
 # Load model and encoder
 model = joblib.load("ml_model/sentiment_model.joblib")

@@ -16,16 +16,20 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!)_8_#t4&ple3&70di=7!eevvfh6bqod-b7l^=b^m&708e07ye'
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = 'django-insecure-!)_8_#t4&ple3&70di=7!eevvfh6bqod-b7l^=b^m&708e07ye'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+
+import os  # Add this at the top if not already present
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-local-secret-key")
+DEBUG = os.getenv("DEBUG", "False") == "True"
+ALLOWED_HOSTS = ["your-app-name.onrender.com", "localhost"]
 
 
 # Application definition
